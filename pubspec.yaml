@@ -1,8 +1,8 @@
 name: masonry_grid
-description: A new Flutter package project.
+description: Flutter Masonry Grid.
 version: 0.0.1
-author:
-homepage:
+author: Abdul Ghani
+homepage: https://github.com/abdulghani/masonry_grid
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
