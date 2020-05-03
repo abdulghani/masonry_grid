@@ -42,8 +42,6 @@ class YourPage extends StatelessWidget {
 int column  // number of column rendered
 double mainAxisSpacing  // amount of vertical spacing between items
 double crossAxisSpacing // amount of horizontal spacing between columns
-CrossAxisAlignment crossAxisAlignment // cross axis alignment inside of 
-                                          each column
-List<Widget> children // children widgets that's going to be  
-                          rendered.                                        
+CrossAxisAlignment crossAxisAlignment // cross axis alignment inside of each column
+List<Widget> children // children widgets that's going to be rendered.                                        
 ```
