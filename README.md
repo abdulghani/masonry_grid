@@ -1,14 +1,49 @@
 # masonry_grid
-
-A new Flutter package project.
+Flutter Masonry Grid layout to create masonry, pinterest like layout.
 
 ## Getting Started
+Install the package, add the dependencies to your `pubspec.yaml`
+```
+dependencies:
+  // ... the rest of your dependencies
+  masonry_grid: [version]
+```
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+## Usage
+Import and use the widget to create your grid
+```dart
+import 'package:masonry_grid/masonry_grid.dart';
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+class YourPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(
+            child: MasonryGrid(
+                column: 2,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: List.generate(
+                  10,
+                  (i) =>
+                      SizedBox(width: 100, height: 100, child: Text("hello")),
+                )))
+      ],
+    ));
+  }
+}
+```
+
+## Properties
+```
+int column  // number of column rendered
+double mainAxisSpacing  // amount of vertical spacing between items
+double crossAxisSpacing // amount of horizontal spacing between columns
+CrossAxisAlignment crossAxisAlignment // cross axis alignment inside of 
+                                          each column
+List<Widget> children // children widgets that's going to be  
+                          rendered.                                        
+```
