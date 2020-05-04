@@ -3,7 +3,7 @@ Flutter Masonry Grid layout to create masonry, pinterest like layout.
 
 ## Getting Started
 Install the package, add the dependencies to your `pubspec.yaml`
-```
+```yaml
 dependencies:
   // ... the rest of your dependencies
   masonry_grid: [version]
@@ -38,7 +38,7 @@ class YourPage extends StatelessWidget {
 ```
 
 ## Properties
-```
+```dart
 int column  // number of column rendered
 double mainAxisSpacing  // amount of vertical spacing between items
 double crossAxisSpacing // amount of horizontal spacing between columns
