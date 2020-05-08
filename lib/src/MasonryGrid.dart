@@ -74,32 +74,29 @@ class _MasonryGrid extends State<MasonryGrid> {
       Future.microtask(() => this.renderItem());
     }
 
-    List<Widget> column = [];
-    if (this.widget.crossAxisSpacing == 0) {
-      column = List.generate(
-          this.widget.column,
-          (i) => Expanded(
-                child: Column(
-                  key: this.columnKey[i],
-                  children: columnItem[i],
-                  crossAxisAlignment: this.widget.crossAxisAlignment,
-                ),
-              ));
-    } else {
-      column = List.generate(
-          this.widget.column + (this.widget.column - 1),
-          (i) => i.isEven
-              ? Expanded(
+    final List<Widget> column = this.widget.crossAxisSpacing == 0
+        ? List.generate(
+            this.widget.column,
+            (i) => Expanded(
                   child: Column(
-                    key: this.columnKey[(i / 2).floor()],
-                    children: columnItem[(i / 2).floor()],
+                    key: this.columnKey[i],
+                    children: columnItem[i],
                     crossAxisAlignment: this.widget.crossAxisAlignment,
                   ),
-                )
-              : SizedBox(
-                  width: this.widget.crossAxisSpacing,
-                ));
-    }
+                ))
+        : List.generate(
+            this.widget.column + (this.widget.column - 1),
+            (i) => i.isEven
+                ? Expanded(
+                    child: Column(
+                      key: this.columnKey[(i / 2).floor()],
+                      children: columnItem[(i / 2).floor()],
+                      crossAxisAlignment: this.widget.crossAxisAlignment,
+                    ),
+                  )
+                : SizedBox(
+                    width: this.widget.crossAxisSpacing,
+                  ));
 
     return Row(
       children: column,
