@@ -1,5 +1,5 @@
 # masonry_grid
-Flutter Masonry Grid layout to create masonry, pinterest like layout.
+Flutter Masonry Grid layout to create masonry, staggered items layout.
 
 ## Getting Started
 Install the package, add the dependencies to your `pubspec.yaml`
@@ -26,6 +26,7 @@ class YourPage extends StatelessWidget {
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
+                staggered: false,
                 children: List.generate(
                   10,
                   (i) =>
@@ -43,5 +44,6 @@ int column  // number of column rendered
 double mainAxisSpacing  // amount of vertical spacing between items
 double crossAxisSpacing // amount of horizontal spacing between columns
 CrossAxisAlignment crossAxisAlignment // cross axis alignment inside of each column
+bool staggered  //  stagger layout to override children order to paint items on the lowest column first
 List<Widget> children // children widgets that's going to be rendered.                                        
 ```
