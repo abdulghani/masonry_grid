@@ -64,10 +64,10 @@ class _MasonryGrid extends State<MasonryGrid> {
   Widget build(BuildContext context) {
     if (!this.widget.staggered) {
       this.widget.children.asMap().forEach((i, item) {
-        columnItem[i % this.widget.column].add(Padding(
-          padding: EdgeInsets.only(bottom: this.widget.mainAxisSpacing),
-          child: item,
-        ));
+        this.columnItem[i % this.widget.column].add(Padding(
+              padding: EdgeInsets.only(bottom: this.widget.mainAxisSpacing),
+              child: item,
+            ));
       });
     } else if (this.widget.staggered &&
         this.renderId < this.widget.children.length) {
