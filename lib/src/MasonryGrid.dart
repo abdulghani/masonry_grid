@@ -27,6 +27,12 @@ class _MasonryGrid extends State<MasonryGrid> {
 
   @override
   void initState() {
+    assert(this.widget.column >= 1, "column should be at least 1.");
+    assert(this.widget.mainAxisSpacing >= 0,
+        "mainAxisSpacing should be positive.");
+    assert(this.widget.crossAxisSpacing >= 0,
+        "crossAxisSpacing should be positive.");
+
     this.columnItem = List.generate(this.widget.column, (i) => []);
     this.columnKey = List.generate(this.widget.column, (i) => GlobalKey());
     super.initState();
