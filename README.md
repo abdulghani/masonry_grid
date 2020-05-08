@@ -23,9 +23,7 @@ class YourPage extends StatelessWidget {
         SliverToBoxAdapter(
             child: MasonryGrid(
                 column: 2,
-                children: List.generate(
-                  10,
-                  (i) =>
+                children: List.generate(10, (i) =>
                       SizedBox(width: 100, height: 100, child: Text("hello")),
                 )))
       ],
