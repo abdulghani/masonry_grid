@@ -23,10 +23,6 @@ class YourPage extends StatelessWidget {
         SliverToBoxAdapter(
             child: MasonryGrid(
                 column: 2,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                staggered: false,
                 children: List.generate(
                   10,
                   (i) =>
@@ -41,9 +37,9 @@ class YourPage extends StatelessWidget {
 ## Properties
 ```dart
 int column  // number of column rendered
+List<Widget> children // children widgets that's going to be rendered.                                        
 double mainAxisSpacing  // amount of vertical spacing between items
 double crossAxisSpacing // amount of horizontal spacing between columns
-CrossAxisAlignment crossAxisAlignment // cross axis alignment inside of each column
 bool staggered  //  stagger layout to override children order to paint items on the lowest column first
-List<Widget> children // children widgets that's going to be rendered.                                        
+CrossAxisAlignment crossAxisAlignment // cross axis alignment inside of each column
 ```
