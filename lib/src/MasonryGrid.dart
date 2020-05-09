@@ -66,19 +66,30 @@ class _MasonryGrid extends State<MasonryGrid> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    if (!this.widget.staggered) {
-      this.widget.children.asMap().forEach((i, item) {
-        this.columnItem[i % this.widget.column].add(Padding(
-              padding: EdgeInsets.only(bottom: this.widget.mainAxisSpacing),
-              child: item,
-            ));
-      });
+  void renderItemNormally() {
+    for (int i = this.renderId; i < this.widget.children.length; i++) {
+      this.columnItem[i % this.widget.column].add(Padding(
+            padding: EdgeInsets.only(bottom: this.widget.mainAxisSpacing),
+            child: this.widget.children[i],
+          ));
+    }
+    setState(() {
+      this.renderId = this.widget.children.length;
+    });
+  }
+
+  void renderChildren() {
+    if (!this.widget.staggered && this.renderId < this.widget.children.length) {
+      this.renderItemNormally();
     } else if (this.widget.staggered &&
         this.renderId < this.widget.children.length) {
       Future.microtask(() => this.renderItem());
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    renderChildren();
 
     final List<Widget> column = this.widget.crossAxisSpacing == 0
         ? List.generate(

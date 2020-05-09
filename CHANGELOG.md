@@ -6,3 +6,7 @@
 ## [0.2.0] - May 9th, 2020.
 
 * Add `staggered` bool prop to decide how layout painted/ordered
+
+## [0.3.0] - May 10th, 2020.
+
+* Gracefully render added items/children.
