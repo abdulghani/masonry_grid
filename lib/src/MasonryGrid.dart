@@ -40,15 +40,20 @@ class _MasonryGrid extends State<MasonryGrid> {
   }
 
   @override
-  void didUpdateWidget(old) {
-    if (!listEquals(old.children, this.widget.children)) {
+  void didUpdateWidget(prev) {
+    if (!listEquals(prev.children, this.widget.children) ||
+        prev.column != this.widget.column ||
+        prev.mainAxisSpacing != this.widget.mainAxisSpacing ||
+        prev.crossAxisSpacing != this.widget.crossAxisSpacing ||
+        prev.crossAxisAlignment != this.widget.crossAxisAlignment ||
+        prev.staggered != this.widget.staggered) {
       setState(() {
         this.renderId = 0;
         this.columnItem = List.generate(this.widget.column, (i) => []);
         this.columnKey = List.generate(this.widget.column, (i) => GlobalKey());
       });
     }
-    super.didUpdateWidget(old);
+    super.didUpdateWidget(prev);
   }
 
   int getSmallestColumnId() {
