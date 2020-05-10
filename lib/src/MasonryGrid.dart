@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class MasonryGrid extends StatefulWidget {
@@ -38,6 +39,18 @@ class _MasonryGrid extends State<MasonryGrid> {
     super.initState();
   }
 
+  @override
+  void didUpdateWidget(old) {
+    if (!listEquals(old.children, this.widget.children)) {
+      setState(() {
+        this.renderId = 0;
+        this.columnItem = List.generate(this.widget.column, (i) => []);
+        this.columnKey = List.generate(this.widget.column, (i) => GlobalKey());
+      });
+    }
+    super.didUpdateWidget(old);
+  }
+
   int getSmallestColumnId() {
     int smallestColumnId = 0;
     try {
@@ -54,7 +67,7 @@ class _MasonryGrid extends State<MasonryGrid> {
     return smallestColumnId;
   }
 
-  void renderItem() {
+  void renderItemStaggered() {
     int columnId = getSmallestColumnId();
     this.columnItem[columnId].add(Padding(
           padding: EdgeInsets.only(bottom: this.widget.mainAxisSpacing),
@@ -66,7 +79,7 @@ class _MasonryGrid extends State<MasonryGrid> {
     });
   }
 
-  void renderItemNormally() {
+  void renderItemInOrder() {
     for (int i = this.renderId; i < this.widget.children.length; i++) {
       this.columnItem[i % this.widget.column].add(Padding(
             padding: EdgeInsets.only(bottom: this.widget.mainAxisSpacing),
@@ -80,10 +93,10 @@ class _MasonryGrid extends State<MasonryGrid> {
 
   void renderChildren() {
     if (!this.widget.staggered && this.renderId < this.widget.children.length) {
-      this.renderItemNormally();
+      this.renderItemInOrder();
     } else if (this.widget.staggered &&
         this.renderId < this.widget.children.length) {
-      Future.microtask(() => this.renderItem());
+      Future.microtask(() => this.renderItemStaggered());
     }
   }
 

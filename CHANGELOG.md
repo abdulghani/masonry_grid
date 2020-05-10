@@ -10,3 +10,7 @@
 ## [0.3.0] - May 10th, 2020.
 
 * Gracefully render added items/children.
+
+## [0.3.1] - May 10th, 2020.
+
+* Rerender if `children` prop is changed on hot reload
