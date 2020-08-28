@@ -5,7 +5,7 @@ Flutter Masonry Grid layout to create masonry, staggered items layout.
 ## Support
 
 Support this project on [patreon](https://www.patreon.com/abdulghani).
-![patreon](./lib/assets/patreon.png | width=150)
+![patreon](./lib/assets/patreon.png =150x)
 
 ## Getting Started
 
