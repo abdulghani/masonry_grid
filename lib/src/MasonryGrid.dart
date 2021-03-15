@@ -11,7 +11,7 @@ class MasonryGrid extends StatefulWidget {
       this.staggered = false});
 
   final int column;
-  final List<Widget> children;
+  final List<Widget>? children;
   final double mainAxisSpacing;
   final double crossAxisSpacing;
   final CrossAxisAlignment crossAxisAlignment;
@@ -23,8 +23,8 @@ class MasonryGrid extends StatefulWidget {
 
 class _MasonryGrid extends State<MasonryGrid> {
   int renderId = 0;
-  List<List<Widget>> columnItem;
-  List<GlobalKey> columnKey;
+  late List<List<Widget>> columnItem;
+  late List<GlobalKey> columnKey;
 
   @override
   void initState() {
@@ -59,10 +59,10 @@ class _MasonryGrid extends State<MasonryGrid> {
   int getSmallestColumnId() {
     int smallestColumnId = 0;
     try {
-      final List<RenderBox> renderColumn = List.generate(this.columnKey.length,
-          (i) => this.columnKey[i].currentContext?.findRenderObject());
+      final List<RenderBox?> renderColumn = List.generate(this.columnKey.length,
+          (i) => this.columnKey[i].currentContext?.findRenderObject() as RenderBox?);
       final List<double> columnHeight = List.generate(
-          renderColumn.length, (i) => renderColumn[i].size.height);
+          renderColumn.length, (i) => renderColumn[i]!.size.height);
 
       columnHeight.asMap().forEach((i, item) {
         if (columnHeight[i] < columnHeight[smallestColumnId])
@@ -76,7 +76,7 @@ class _MasonryGrid extends State<MasonryGrid> {
     int columnId = getSmallestColumnId();
     this.columnItem[columnId].add(Padding(
           padding: EdgeInsets.only(bottom: this.widget.mainAxisSpacing),
-          child: this.widget.children[this.renderId],
+          child: this.widget.children![this.renderId],
         ));
 
     setState(() {
@@ -85,22 +85,22 @@ class _MasonryGrid extends State<MasonryGrid> {
   }
 
   void renderItemInOrder() {
-    for (int i = this.renderId; i < this.widget.children.length; i++) {
+    for (int i = this.renderId; i < this.widget.children!.length; i++) {
       this.columnItem[i % this.widget.column].add(Padding(
             padding: EdgeInsets.only(bottom: this.widget.mainAxisSpacing),
-            child: this.widget.children[i],
+            child: this.widget.children![i],
           ));
     }
     setState(() {
-      this.renderId = this.widget.children.length;
+      this.renderId = this.widget.children!.length;
     });
   }
 
   void renderChildren() {
-    if (!this.widget.staggered && this.renderId < this.widget.children.length) {
+    if (!this.widget.staggered && this.renderId < this.widget.children!.length) {
       this.renderItemInOrder();
     } else if (this.widget.staggered &&
-        this.renderId < this.widget.children.length) {
+        this.renderId < this.widget.children!.length) {
       Future.microtask(() => this.renderItemStaggered());
     }
   }
