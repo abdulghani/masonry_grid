@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class MasonryGrid extends StatefulWidget {
   MasonryGrid(
       {this.column = 1,
-      this.children,
+      required this.children,
       this.mainAxisSpacing = 0,
       this.crossAxisSpacing = 0,
       this.crossAxisAlignment = CrossAxisAlignment.stretch,
@@ -23,85 +23,86 @@ class MasonryGrid extends StatefulWidget {
 
 class _MasonryGrid extends State<MasonryGrid> {
   int renderId = 0;
-  List<List<Widget>> columnItem;
-  List<GlobalKey> columnKey;
+  late List<List<Widget>> columnItem;
+  late List<GlobalKey> columnKey;
 
   @override
   void initState() {
-    assert(this.widget.column >= 1, "column should be at least 1.");
-    assert(this.widget.mainAxisSpacing >= 0,
-        "mainAxisSpacing should be positive.");
-    assert(this.widget.crossAxisSpacing >= 0,
-        "crossAxisSpacing should be positive.");
+    assert(widget.column >= 1, 'column should be at least 1.');
+    assert(widget.mainAxisSpacing >= 0, 'mainAxisSpacing should be positive.');
+    assert(
+        widget.crossAxisSpacing >= 0, 'crossAxisSpacing should be positive.');
 
-    this.columnItem = List.generate(this.widget.column, (i) => []);
-    this.columnKey = List.generate(this.widget.column, (i) => GlobalKey());
+    columnItem = List.generate(widget.column, (i) => []);
+    columnKey = List.generate(widget.column, (i) => GlobalKey());
     super.initState();
   }
 
   @override
   void didUpdateWidget(prev) {
-    if (!listEquals(prev.children, this.widget.children) ||
-        prev.column != this.widget.column ||
-        prev.mainAxisSpacing != this.widget.mainAxisSpacing ||
-        prev.crossAxisSpacing != this.widget.crossAxisSpacing ||
-        prev.crossAxisAlignment != this.widget.crossAxisAlignment ||
-        prev.staggered != this.widget.staggered) {
+    if (!listEquals(prev.children, widget.children) ||
+        prev.column != widget.column ||
+        prev.mainAxisSpacing != widget.mainAxisSpacing ||
+        prev.crossAxisSpacing != widget.crossAxisSpacing ||
+        prev.crossAxisAlignment != widget.crossAxisAlignment ||
+        prev.staggered != widget.staggered) {
       setState(() {
-        this.renderId = 0;
-        this.columnItem = List.generate(this.widget.column, (i) => []);
-        this.columnKey = List.generate(this.widget.column, (i) => GlobalKey());
+        renderId = 0;
+        columnItem = List.generate(widget.column, (i) => []);
+        columnKey = List.generate(widget.column, (i) => GlobalKey());
       });
     }
     super.didUpdateWidget(prev);
   }
 
   int getSmallestColumnId() {
-    int smallestColumnId = 0;
+    var smallestColumnId = 0;
     try {
-      final List<RenderBox> renderColumn = List.generate(this.columnKey.length,
-          (i) => this.columnKey[i].currentContext?.findRenderObject());
-      final List<double> columnHeight = List.generate(
-          renderColumn.length, (i) => renderColumn[i].size.height);
+      final renderColumn = List<RenderBox?>.generate(columnKey.length,
+          (i) => columnKey[i].currentContext?.findRenderObject() as RenderBox?);
+      final columnHeight = List<double>.generate(
+          renderColumn.length, (i) => renderColumn[i]!.size.height);
 
       columnHeight.asMap().forEach((i, item) {
-        if (columnHeight[i] < columnHeight[smallestColumnId])
+        if (columnHeight[i] < columnHeight[smallestColumnId]) {
           smallestColumnId = i;
+        }
       });
-    } catch (err) {}
+    } catch (err) {
+      // TODO: handle err.
+    }
     return smallestColumnId;
   }
 
   void renderItemStaggered() {
-    int columnId = getSmallestColumnId();
-    this.columnItem[columnId].add(Padding(
-          padding: EdgeInsets.only(bottom: this.widget.mainAxisSpacing),
-          child: this.widget.children[this.renderId],
-        ));
+    var columnId = getSmallestColumnId();
+    columnItem[columnId].add(Padding(
+      padding: EdgeInsets.only(bottom: widget.mainAxisSpacing),
+      child: widget.children[renderId],
+    ));
 
     setState(() {
-      this.renderId = this.renderId + 1;
+      renderId = renderId + 1;
     });
   }
 
   void renderItemInOrder() {
-    for (int i = this.renderId; i < this.widget.children.length; i++) {
-      this.columnItem[i % this.widget.column].add(Padding(
-            padding: EdgeInsets.only(bottom: this.widget.mainAxisSpacing),
-            child: this.widget.children[i],
-          ));
+    for (var i = renderId; i < widget.children.length; i++) {
+      columnItem[i % widget.column].add(Padding(
+        padding: EdgeInsets.only(bottom: widget.mainAxisSpacing),
+        child: widget.children[i],
+      ));
     }
     setState(() {
-      this.renderId = this.widget.children.length;
+      renderId = widget.children.length;
     });
   }
 
   void renderChildren() {
-    if (!this.widget.staggered && this.renderId < this.widget.children.length) {
-      this.renderItemInOrder();
-    } else if (this.widget.staggered &&
-        this.renderId < this.widget.children.length) {
-      Future.microtask(() => this.renderItemStaggered());
+    if (!widget.staggered && renderId < widget.children.length) {
+      renderItemInOrder();
+    } else if (widget.staggered && renderId < widget.children.length) {
+      Future.microtask(() => renderItemStaggered());
     }
   }
 
@@ -109,33 +110,33 @@ class _MasonryGrid extends State<MasonryGrid> {
   Widget build(BuildContext context) {
     renderChildren();
 
-    final List<Widget> column = this.widget.crossAxisSpacing == 0
+    final column = widget.crossAxisSpacing == 0
         ? List.generate(
-            this.widget.column,
+            widget.column,
             (i) => Expanded(
                   child: Column(
-                    key: this.columnKey[i],
+                    key: columnKey[i],
+                    crossAxisAlignment: widget.crossAxisAlignment,
                     children: columnItem[i],
-                    crossAxisAlignment: this.widget.crossAxisAlignment,
                   ),
                 ))
         : List.generate(
-            this.widget.column + (this.widget.column - 1),
+            widget.column + (widget.column - 1),
             (i) => i.isEven
                 ? Expanded(
                     child: Column(
-                      key: this.columnKey[(i / 2).floor()],
+                      key: columnKey[(i / 2).floor()],
+                      crossAxisAlignment: widget.crossAxisAlignment,
                       children: columnItem[(i / 2).floor()],
-                      crossAxisAlignment: this.widget.crossAxisAlignment,
                     ),
                   )
                 : SizedBox(
-                    width: this.widget.crossAxisSpacing,
+                    width: widget.crossAxisSpacing,
                   ));
 
     return Row(
-      children: column,
       crossAxisAlignment: CrossAxisAlignment.start,
+      children: column,
     );
   }
 }
