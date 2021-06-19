@@ -14,3 +14,7 @@
 ## [0.3.1] - May 10th, 2020.
 
 * Rerender if `children` prop is changed on hot reload
+
+## [1.0.0] - June 19th, 2021
+
+* Add null safety support

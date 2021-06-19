@@ -1,7 +1,6 @@
 name: masonry_grid
 description: Flutter Masonry Grid layout to create masonry, staggered items layout.
-version: 0.3.1+2
-author: Abdul Ghani
+version: 1.0.0
 homepage: https://github.com/abdulghani/masonry_grid
 
 environment:
